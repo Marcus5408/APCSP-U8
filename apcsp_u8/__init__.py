@@ -13,7 +13,7 @@ screen = pygame.display.set_mode(size)
 
 person = {
     "name": "Issac Liu",
-    "slogan": "I don't care",
+    "slogan": "yippee !!!",
     "date": datetime.now().strftime("%m/%d/%Y")
 }
 
@@ -34,7 +34,7 @@ while run:
 
     screen.fill((38, 35, 53))
     screen.blit(display_name, (0, 0))
-    screen.blit(display_slogan, ((size[0]//2) - 125, (size[1]//2) - 30))
+    screen.blit(display_slogan, ((size[0]//2) - 100, (size[1]//2) - 30))
     screen.blit(display_date, (size[0] - 225, size[1] - 30))
     pygame.display.update()
 
