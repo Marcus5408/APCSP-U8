@@ -14,8 +14,7 @@ fonts = {
     "SpaceMono Nerd Font": "fonts/SpaceMonoNerdFont-Regular.ttf",
     "Verdana": "fonts/verdana.ttf",
     "Calibri": "fonts/calibri.ttf",
-    "Century Gothic": "fonts/GOTHIC.TTF",
-    "Genshin Impact DRIP FONT": "fonts/Genshin-Impact-DRIP-FONT.ttf"
+    "Century Gothic": "fonts/GOTHIC.TTF"
 }
 
 # set up pygame modules
@@ -103,8 +102,10 @@ while run:
                 if event.button == 1:
                     person["message"] = anarchy_chess[randint(0, len(anarchy_chess) - 1)]
                 elif event.button == 3:
-                    my_font = pygame.font.Font(fonts.keys()[randint(0, len(fonts) - 1)], 24)
+                    my_font = pygame.font.Font(fonts[list(fonts.keys())[randint(0, len(fonts) - 1)]], 24)
                     render_text(person, tuple(generate_color()))
+
+    screen.fill(colors[str(int(datetime.now().strftime("%S")) // 2 % 5)]["background"])
 
     time_elapsed = datetime.now() - time_started
     time_elapsed = time_elapsed.total_seconds()
