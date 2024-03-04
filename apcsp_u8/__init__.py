@@ -1,3 +1,4 @@
+from random import randint
 import pygame
 from datetime import datetime
 
@@ -13,7 +14,7 @@ screen = pygame.display.set_mode(size)
 
 person = {
     "name": "Issac Liu",
-    "slogan": "yippee !!!",
+    "message": "yippee !!!",
     "date": datetime.now().strftime("%m/%d/%Y")
 }
 
@@ -40,14 +41,52 @@ colors = {
     }
 }
 
-def render_text(person: dict):
+def render_text(person: dict, color: tuple = (None, None, None)) -> tuple:
     # render the text for later
-    mod_time = str(int(datetime.now().strftime("%S")) // 2 % 5)
-    display_name = my_font.render(person['name'], True, colors[mod_time]['text'])
-    display_slogan = my_font.render(f"Slogan: {person['slogan']}", True, colors[mod_time]['text'])
-    display_date = my_font.render(f"Date: {person['date']}", True, colors[mod_time]['text'])
+    if color == (None, None, None):
+        color = colors[str(int(datetime.now().strftime("%S")) // 2 % 5)]['text']
+    else:
+        color = color
+    display_name = my_font.render(person['name'], True, color)
+    display_message = my_font.render(f"{person['message']}", True, color)
+    display_date = my_font.render(f"Date: {person['date']}", True, color)
 
-    return display_name, display_slogan, display_date
+    return display_name, display_message, display_date
+
+def generate_color() -> tuple:
+    return (randint(0, 255), randint(0, 255), randint(0, 255))
+
+def generate_color_text(r:int, g:int, b:int) -> str:
+    return f"RGB value = ( {r}, {g}, {b} )"
+
+anarchy_chess = [
+    "google en passant",
+    "holy hell",
+    "new response just dropped",
+    "actual zombie",
+    "call the exorcist!",
+    "???",
+    "bishop goes on vacation, never comes back",
+    "Queen sacrifice anyone?",
+    "pawn storm incoming!",
+    "google dementia"
+]
+
+fonts = [
+    "HYWenHei-85W",
+    "Arial",
+    "Comic Sans MS",
+    "Dubai Regular",
+    "JetBrainsMono NF",
+    "Segoe UI",
+    "Papyrus",
+    "SF Compact Regular",
+    "SpaceMono Nerd Font",
+    "Verdana",
+    "Calibri",
+    "Century Gothic",
+    "Genshin Impact DRIP FONT"
+]
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -57,19 +96,29 @@ time_started = datetime.now()
 while run:
     # --- Main event loop
     for event in pygame.event.get():  # User did something
-        if event.type == pygame.QUIT:  # If user clicked close
-            run = False
+        match event.type:
+            case pygame.QUIT:
+                run = False
+            case pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    person["message"] = anarchy_chess[randint(0, len(anarchy_chess) - 1)]
+                elif event.button == 3:
+                    my_font = pygame.font.SysFont(fonts[randint(0, len(fonts) - 1)], 24)
+                    render_text(person, tuple(generate_color()))
 
-    screen.fill(colors[str(int(datetime.now().strftime("%S")) // 2 % 5)]["background"])
-    display_name, display_slogan, display_date = render_text(person)
     time_elapsed = datetime.now() - time_started
     time_elapsed = time_elapsed.total_seconds()
     time_elapsed = round(time_elapsed, 3)
     time_elapsed = f"{time_elapsed} seconds"
     display_time_elapsed = my_font.render(f"Time Elapsed: {time_elapsed}", True, colors[str(int(datetime.now().strftime("%S")) // 2 % 5)]["text"])
     screen.blit(display_time_elapsed, (0, size[1] - 30))
+
+    display_name, display_message, display_date = render_text(person)
     screen.blit(display_name, (0, 0))
-    screen.blit(display_slogan, ((size[0]//2) - 100, (size[1]//2) - 30))
+    text_width, text_height = display_message.get_size()
+    text_x = (size[0] - text_width) // 2
+    text_y = (size[1] - text_height) // 2
+    screen.blit(display_message, (text_x, text_y))
     screen.blit(display_date, (size[0] - 225, size[1] - 30))
     pygame.display.update()
 
