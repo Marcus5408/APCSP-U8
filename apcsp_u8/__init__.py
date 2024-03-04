@@ -2,10 +2,26 @@ from random import randint
 import pygame
 from datetime import datetime
 
+fonts = {
+    "HYWenHei-85W": "fonts/zhcn.ttf",
+    "Arial": "fonts/arial.ttf",
+    "Comic Sans MS": "fonts/comic.ttf",
+    "Dubai Regular": "fonts/DUBAI-REGULAR.TTF",
+    "JetBrainsMono NF": "fonts/JetBrainsMonoNerdFont-Regular.ttf",
+    "Segoe UI": "fonts/segoeui.ttf",
+    "Papyrus": "fonts/PAPYRUS.TTF",
+    "SF Compact Regular": "fonts/SF-Compact-Display-Regular.otf",
+    "SpaceMono Nerd Font": "fonts/SpaceMonoNerdFont-Regular.ttf",
+    "Verdana": "fonts/verdana.ttf",
+    "Calibri": "fonts/calibri.ttf",
+    "Century Gothic": "fonts/GOTHIC.TTF",
+    "Genshin Impact DRIP FONT": "fonts/Genshin-Impact-DRIP-FONT.ttf"
+}
+
 # set up pygame modules
 pygame.init()
 pygame.font.init()
-my_font = pygame.font.SysFont('HYWenHei-85W', 24)
+my_font = pygame.font.Font(fonts['HYWenHei-85W'], 24)
 pygame.display.set_caption("AP CSP Pygame!")
 
 # set up variables for the display
@@ -72,22 +88,6 @@ anarchy_chess = [
     "google dementia"
 ]
 
-fonts = [
-    "HYWenHei-85W",
-    "Arial",
-    "Comic Sans MS",
-    "Dubai Regular",
-    "JetBrainsMono NF",
-    "Segoe UI",
-    "Papyrus",
-    "SF Compact Regular",
-    "SpaceMono Nerd Font",
-    "Verdana",
-    "Calibri",
-    "Century Gothic",
-    "Genshin Impact DRIP FONT"
-]
-
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
 time_started = datetime.now()
@@ -103,7 +103,7 @@ while run:
                 if event.button == 1:
                     person["message"] = anarchy_chess[randint(0, len(anarchy_chess) - 1)]
                 elif event.button == 3:
-                    my_font = pygame.font.SysFont(fonts[randint(0, len(fonts) - 1)], 24)
+                    my_font = pygame.font.Font(fonts.keys()[randint(0, len(fonts) - 1)], 24)
                     render_text(person, tuple(generate_color()))
 
     time_elapsed = datetime.now() - time_started
